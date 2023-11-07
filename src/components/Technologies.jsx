@@ -17,7 +17,8 @@ import esp from "../assets/esp.webp";
 import { cropData } from "../cropData";
 function Technologies() {
   async function fetchData() {
-    const res = await axios.get("http://localhost:5000/get_recommendation");
+    const res = await axios.get("http://127.0.0.1:5000/get_recommendation");
+    console.log(res)
     let crop = res.data.RecommendedCrop;
     let rain = res.data.Rainfall;
     let hum = res.data.Humidity;
@@ -35,7 +36,7 @@ function Technologies() {
 
     setCropAvailable(true);
 
-    const desiredNewCrop = cropData.find((crop) => crop.crop === data.crop);
+    const desiredNewCrop = cropData.find((crop) => crop.crop === res.data.RecommendedCrop);
     setCrop(desiredNewCrop || null);
   }
   const [data, setData] = useState({
@@ -174,10 +175,11 @@ function Technologies() {
         </button>
         <button className="plant m-6 btn-custom">Get Crop</button>
       </div>
+      <div className="h-[20rem]"></div>
 
       {cropAvailable && (
         <section className="flex justify-center items-center w-full h-[100vh]">
-          <div className="flex flex-col justify-center items-center w-1/2 h-[100vh] ">
+          <div className="flex flex-col justify-center items-center w-1/2 h-full">
             <div className="flex flex-col justify-center items-center gap-8 w-1/2">
               <span className="text-primary-green-#c8ea61 text-4xl font-extrabold ">{(desiredCrop.crop).toUpperCase()}</span>
               <img className="w-[30rem] h-auto rounded-2xl mb-[4rem]" src={desiredCrop.img} alt="crop-image" />
